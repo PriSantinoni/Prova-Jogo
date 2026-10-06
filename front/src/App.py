@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 // O Nginx do container encaminha /api/* para http://api:3000/* (DNS interno do Compose)
-const API_URL = '/api/produtos';
+const API_URL = '/api/jogo';
 
 const estilos = {
   pagina: { fontFamily: 'system-ui, sans-serif', maxWidth: 900, margin: '40px auto', padding: '0 16px' },
@@ -11,7 +11,7 @@ const estilos = {
 };
 
 export default function App() {
-  const [produtos, setProdutos] = useState([]);
+  const [jogo, setJogo] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
 
@@ -21,7 +21,7 @@ export default function App() {
     try {
       const resp = await fetch(API_URL);
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-      setProdutos(await resp.json());
+      setJogo(await resp.json());
     } catch (e) {
       setErro(e.message);
     } finally {
@@ -35,7 +35,7 @@ export default function App() {
 
   return (
     <div style={estilos.pagina}>
-      <h1>Produtos</h1>
+      <h1>Jogo</h1>
       <button onClick={carregar}>Atualizar</button>
 
       {carregando && <p>Carregando...</p>}
@@ -52,12 +52,12 @@ export default function App() {
             </tr>
           </thead>
           <tbody>
-            {produtos.length === 0 ? (
+            {jogo.length === 0 ? (
               <tr>
                 <td style={estilos.td} colSpan={4}>Nenhum produto cadastrado.</td>
               </tr>
             ) : (
-              produtos.map((p) => (
+              jogo.map((p) => (
                 <tr key={p.id}>
                   <td style={estilos.td}>{p.id}</td>
                   <td style={estilos.td}>{p.nome}</td>
